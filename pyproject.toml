@@ -1,0 +1,103 @@
+[project]
+name = "pure_keccak"
+version = "0.1.0"
+description = "Pure Python keccak implementation"
+authors = [
+    {name = "Bogdan Opanchuk", email = "bogdan@opanchuk.net"},
+]
+dependencies = []
+requires-python = ">=3.10"
+license = { file = "LICENSE.md" }
+readme = "README.md"
+
+[project.urls]
+homepage = "https://github.com/fjarri-eth/pure_keccak"
+
+[project.optional-dependencies]
+tests = [
+    "pytest>=6",
+    "pytest-cov",
+    "pytest-benchmark",
+    "pycryptodome",
+]
+docs = [
+    "sphinx>=4",
+    "furo",
+    "setuptools-scm",
+]
+lint = [
+    "mypy>=1.4",
+    "ruff>=0.2",
+]
+
+[tool.mypy]
+strict = true
+warn_unreachable = true
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    # It's a stylistic choice. Don't save on matches.
+    "C408",
+    # It's never a problem unless you mutate function arguments (which is rarely a good idea).
+    "B008",
+    # The type of `self` is derived automatically.
+    "ANN101",
+    # We use `Any` quite a bit because we need to accept a lot of third-party unnormalized input.
+    "ANN401",
+    # The return type of `__init__` is derived automatically.
+    "ANN204",
+    # The type of `cls` in classmethods is derived automatically.
+    "ANN102",
+    # Doesn't mesh well with the way `black` puts the final parenthesis on a separate line
+    # in functions with one parameter and a long argument.
+    "COM812",
+    # The formatting message is actually useful in a traceback.
+    "EM102",
+    # Could be useful, but triggers on built-in exception classes (e.g. `ValueError`),
+    # which are supposed to be used like that.
+    "TRY003",
+    # Mutually exclusive with D213, which we prefer.
+    "D212",
+    # Mutually exclusive with D211, which we prefer.
+    "D203",
+    # Small project, no need to assign authors in TODOs.
+    "TD002",
+    # A trade-off between traceback noise and code noise. I prefer less code noise.
+    "EM101",
+    # Would be a good rule, but has weird false positives
+    # (it triggers even if it's only one sentence but a long one).
+    "D205",
+    # Not sure on this one. The code has been using third-person form before,
+    # but I can see the potential merit.
+    "D401",
+    # Not helpful. Issues ID should be enough to silence both of these.
+    "TD003",
+    "FIX002",
+    # Too much code noise. A concept of error can be conveyed
+    # without using the word "error" explicitly.
+    "N818",
+    # Too ham-fisted. 5 arguments is too small of a limit.
+    "PLR0913",
+    # Conflicts with the formatter, produces a warning
+    "ISC001",
+    # A ternary operator is a stylistic choice,
+    # and an explicit condition is easier for coverage checking.
+    "SIM108",
+    # Too many false positives. Sometimes a plain value is needed.
+    "PLR2004",
+    # This should be decided on a case-by-case basis, sometimes it just hurts readability.
+    "PERF401",
+    # This is only valid if we use `from __future__ import annotations`.
+    "TCH002",
+    # A meme problem that is blown way out of proportion
+    "B006",
+    # Not needed.
+    "D100", "D104",
+    # Would be nice if it didn't trigger on `__str__()` too.
+    "D105",
+]
